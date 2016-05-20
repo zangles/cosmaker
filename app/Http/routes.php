@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::auth();
+
+Route::group(['middleware' => ['web']], function(){
+    require __DIR__ .'/routes/web.routes.php';
 });
+
+Route::group(['middleware' => ['admin']], function(){
+    require __DIR__ .'/routes/admin.routes.php';
+});
+
+
+
