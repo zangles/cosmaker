@@ -34,7 +34,7 @@
                     </ul>
                 </div>
             @endif
-            <h3>Bievenidos</h3>
+            <h3>Bievenido Cosplayer</h3>
             <p>
             </p>
             <p>Ingresa</p>
