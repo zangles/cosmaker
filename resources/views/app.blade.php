@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Guild Wars 2 - A tumba abierta</title>
+    <title> - Cosmaker - </title>
 
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
