@@ -20,6 +20,11 @@ class CosplayPolicy
         //
     }
 
+    public function createPart(User $user,Cosplay $cosplay)
+    {
+        return $this->imInCosplay($user,$cosplay);
+    }
+    
     public function delete(User $user,Cosplay $cosplay)
     {
         return $this->imInCosplay($user,$cosplay);
@@ -30,7 +35,7 @@ class CosplayPolicy
         return $this->imInCosplay($user,$cosplay);
     }
 
-    private function imInCosplay(User $user, Cosplay $cosplay)
+    public static function imInCosplay(User $user, Cosplay $cosplay)
     {
         return (count($cosplay->users()->where('user_id',$user->id)->get()) > 0);
     }

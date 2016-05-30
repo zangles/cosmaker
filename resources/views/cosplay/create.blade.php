@@ -46,7 +46,14 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Descripcion</label>
+                                <label for="exampleInputEmail1">Presupuesto <small>(Opcional)</small></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" class="form-control" name="budget" value="{{ old('budget') }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Descripcion <small>(Opcional)</small></label>
                                 <textarea name="description" id="" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
                             </div>
                         </div>

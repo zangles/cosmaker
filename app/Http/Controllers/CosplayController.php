@@ -44,6 +44,7 @@ class CosplayController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'status' => 'in:'.Cosplay::PLANNED.",".Cosplay::IN_PROGRESS.",".Cosplay::FINISHED,
+            'budget' => 'numeric',
         ]);
 
         $cosplay = new Cosplay();

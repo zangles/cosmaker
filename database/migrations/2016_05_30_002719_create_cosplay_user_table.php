@@ -27,6 +27,6 @@ class CreateCosplayUserTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cosplays');
+        Schema::drop('cosplay_user');
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-use App\Cosplay;
+use App\CosplayPart;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCosplaysTable extends Migration
+class CreateCosplayPartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCosplaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('cosplays', function (Blueprint $table) {
+        Schema::create('cosplay_parts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('cosplay_id')->unsigned();
             $table->string('name');
-            $table->enum('status',[Cosplay::PLANNED,Cosplay::IN_PROGRESS,Cosplay::FINISHED]);
+            $table->integer('progress')->default(0);
             $table->text('description')->nullable();
-            $table->float('budget')->default(0);
-            $table->integer('owner')->unsigned();
+            $table->enum('status', [CosplayPart::STATUS_PLANNED,CosplayPart::STATUS_IN_PROGRESS,CosplayPart::STATUS_FINISHED]);
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateCosplaysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cosplays');
+        Schema::drop('cosplay_parts');
     }
 }

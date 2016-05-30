@@ -11,6 +11,8 @@
 |
 */
 
+use App\User;
+
 Route::auth();
 
 Route::group(['middleware' => ['web']], function(){
@@ -21,6 +23,5 @@ Route::group(['middleware' => ['web']], function(){
 Route::group(['middleware' => ['admin'],'prefix' => 'admin'], function(){
     require __DIR__ .'/routes/admin.routes.php';
 });
-
 
 
