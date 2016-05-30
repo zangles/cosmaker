@@ -5,3 +5,4 @@ Route::get('/',function(){
 });
 
 Route::resource('cosplay', 'cosplayController');
+Route::resource('cosplay.parts','CosplayPartController');

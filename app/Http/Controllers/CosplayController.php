@@ -44,6 +44,7 @@ class CosplayController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'status' => 'in:'.Cosplay::PLANNED.",".Cosplay::IN_PROGRESS.",".Cosplay::FINISHED,
+            'budget' => 'numeric',
         ]);
 
         $cosplay = new Cosplay();
@@ -65,9 +66,16 @@ class CosplayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+        $cosplay = Cosplay::findOrFail($id);
+
+        if(Auth::user()->can('viewDetaills', $cosplay)){
+            return view('cosplay.show',compact('cosplay'));
+        }else{
+            $request->session()->flash('errors', 'No tiene permisos para ver el cosplay');
+            return redirect()->route('admin.cosplay.index');
+        }
     }
 
     /**
@@ -78,7 +86,7 @@ class CosplayController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**

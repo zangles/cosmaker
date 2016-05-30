@@ -34,10 +34,10 @@
                     </ul>
                 </div>
             @endif
-            <h3>{{ trans('login.welcome') }}</h3>
+                <img src="{{ asset('/img/logo.png') }}" style="max-width: 190px" alt="">
             <p>
             </p>
-            <p>Ingresa</p>
+            <h3>Cosmaker</h3>
                 <form class="m-t" role="form" method="POST" action="{{ url('/login') }}">
                     {{ csrf_field() }}
                 <div class="form-group">

@@ -11,7 +11,7 @@ class Cosplay extends Model
     const FINISHED = 'terminado';
 
     protected $fillable =[
-        'name','status'
+        'name','status','description','budget','owner'
     ];
 
     public function users()
@@ -19,4 +19,19 @@ class Cosplay extends Model
         return $this->belongsToMany(User::class);
     }
     
+    public function parts()
+    {
+        return $this->hasMany(CosplayPart::class);
+    }
+
+    public function getProgress()
+    {
+        $parts = $this->parts->all();
+        $suma = 0;
+        $k = 0;
+        foreach ($parts as $k=>$part) {
+            $suma += $part->progress;
+        }
+        return round($suma/($k+1),0);
+    }
 }
