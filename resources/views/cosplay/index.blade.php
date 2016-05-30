@@ -41,9 +41,9 @@
                                             <td>{{ $c->status }}</td>
                                             <td>0%</td>
                                             <td>
-                                                <button type="button" class="btn btn-success" title="Ver Cosplay">
+                                                <a href="{{ route('admin.cosplay.show',$c) }}" type="button" class="btn btn-success" title="Ver Cosplay">
                                                     <i class="fa fa-search" aria-hidden="true" ></i>
-                                                </button>
+                                                </a>
                                                 @include('helpers.confirm.index',[
                                                     'button' => [
                                                         'icon'=>'fa-trash-o',
