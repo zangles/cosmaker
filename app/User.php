@@ -28,4 +28,9 @@ class User extends Authenticatable
     {
         return ($this->email === 'azuresky07@gmail.com');
     }
+
+    public function cosplays()
+    {
+        return $this->belongsToMany(Cosplay::class);
+    }
 }

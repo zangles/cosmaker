@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Cosplay;
 use App\Http\Requests\CosplayStoreRequest;
 use Illuminate\Http\Request;
-use Auth;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class CosplayController extends Controller
 {
@@ -17,7 +17,7 @@ class CosplayController extends Controller
      */
     public function index()
     {
-        $cosplays = Cosplay::all();
+        $cosplays = Auth::User()->cosplays()->get();
         
         return view('cosplay.index',compact('cosplays'));
     }
@@ -40,13 +40,23 @@ class CosplayController extends Controller
      */
     public function store(CosplayStoreRequest $request)
     {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'status' => 'in:'.Cosplay::PLANNED.",".Cosplay::IN_PROGRESS.",".Cosplay::FINISHED,
+        ]);
+
         $cosplay = new Cosplay();
         $cosplay->name = $request->input('name');
         $cosplay->status = $request->input('status');
         $cosplay->description = $request->input('description');
         $cosplay->save();
 
-        redirect('cosplay');
+        $cosplay->users()->sync([Auth::User()->id]);
+
+        $request->session()->flash('message', 'El cosplay fue creado correctamente.');
+
+        return redirect()->route('admin.cosplay.index');
     }
 
     /**

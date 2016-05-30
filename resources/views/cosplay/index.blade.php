@@ -21,6 +21,9 @@
     </div>
 
     <div class="wrapper wrapper-content">
+        @if (Session::has('message'))
+            <p class="alert alert-success">{{ Session::get('message') }}</p>
+        @endif
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>listado de cosplays</h5></span>
