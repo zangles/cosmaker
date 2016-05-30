@@ -2,12 +2,12 @@
 
                              </span>
     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ Auth::user()->name }}</strong>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ Auth::user()->cosplayer_name }}</strong>
                              </span> <span class="text-muted text-xs block">{{ Auth::user()->role }} <b class="caret"></b></span> </span> </a>
     <ul class="dropdown-menu animated fadeInRight m-t-xs">
         <li><a href="{{ url('/logout') }}">Salir</a></li>
     </ul>
 </div>
 <div class="logo-element">
-    [PROS]
+    <img src="{{ asset('/img/white_logo.png') }}" style="max-width: 51px" alt="">
 </div>

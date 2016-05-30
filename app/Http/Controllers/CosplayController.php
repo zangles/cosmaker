@@ -99,8 +99,16 @@ class CosplayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $cosplay = Cosplay::findOrFail($id);
+        if(Auth::user()->can('delete', $cosplay)){
+            $cosplay->delete();
+            $request->session()->flash('message', 'El cosplay fue borrado correctamente.');
+        }else{
+            $request->session()->flash('errors', 'No tiene permisos para borrar el cosplay');
+        }
+
+        return redirect()->route('admin.cosplay.index');
     }
 }
