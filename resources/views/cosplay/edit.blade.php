@@ -3,11 +3,11 @@
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-sm-4">
-            <h2>Nuevo cosplay</h2>
+            <h2>Editar cosplay</h2>
         </div>
         <div class="col-sm-8">
             <div class="title-action">
-                <a href="{{ route('admin.cosplay.index') }}" class="btn btn-danger">Volver</a>
+                <a href="{{ route('admin.cosplay.show',$cosplay) }}" class="btn btn-danger">Volver</a>
             </div>
         </div>
     </div>
@@ -30,31 +30,32 @@
                         <h5>Informacion del cosplay</h5></span>
                     </div>
 
-                    <form action="{{ route('admin.cosplay.store') }}" method="post">
+                    <form action="{{ route('admin.cosplay.update',$cosplay) }}" method="post">
                         {{ csrf_field() }}
+                        {{ method_field('PUT') }}
                         <div class="ibox-content">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nombre</label>
-                                <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{ old('name') }}">
+                                <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{ old('name',$cosplay->name) }}">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Estado</label>
                                 <select name="status" class="form-control">
-                                    <option value="{{ \App\Cosplay::PLANNED }}">{{ \App\Cosplay::PLANNED }}</option>
-                                    <option value="{{ \App\Cosplay::IN_PROGRESS }}">{{ \App\Cosplay::IN_PROGRESS }}</option>
-                                    <option value="{{ \App\Cosplay::FINISHED }}">{{ \App\Cosplay::FINISHED }}</option>
+                                    <option @if($cosplay->status == \App\Cosplay::PLANNED ) selected @endif value="{{ \App\Cosplay::PLANNED }}">{{ \App\Cosplay::PLANNED }}</option>
+                                    <option @if($cosplay->status == \App\Cosplay::IN_PROGRESS ) selected @endif value="{{ \App\Cosplay::IN_PROGRESS }}">{{ \App\Cosplay::IN_PROGRESS }}</option>
+                                    <option @if($cosplay->status == \App\Cosplay::FINISHED ) selected @endif value="{{ \App\Cosplay::FINISHED }}">{{ \App\Cosplay::FINISHED }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Presupuesto <small>(Opcional)</small></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input type="text" class="form-control" name="budget" value="{{ old('budget') }}">
+                                    <input type="text" class="form-control" name="budget" value="{{ old('budget',$cosplay->budget) }}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Descripcion <small>(Opcional)</small></label>
-                                <textarea name="description" id="" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
+                                <textarea name="description" id="" class="form-control" cols="30" rows="10">{{ old('description',$cosplay->description) }}</textarea>
                             </div>
                         </div>
                         <div class="ibox-footer text-right">

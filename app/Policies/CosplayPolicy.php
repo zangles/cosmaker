@@ -24,6 +24,11 @@ class CosplayPolicy
     {
         return $this->imInCosplay($user,$cosplay);
     }
+
+    public function createCost(User $user,Cosplay $cosplay)
+    {
+        return CosplayPolicy::imInCosplay($user,$cosplay);
+    }
     
     public function delete(User $user,Cosplay $cosplay)
     {

@@ -3,11 +3,22 @@
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-sm-4">
-            <h2>Nuevo cosplay</h2>
+            <h2>Nuevo Gasto</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ route('admin.cosplay.index') }}">Cosplays</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.cosplay.showtab',[$cosplay,'gastos']) }}">{{ $cosplay->name }}</a>
+                </li>
+                <li class="active">
+                    <strong>Nuevo Gasto</strong>
+                </li>
+            </ol>
         </div>
         <div class="col-sm-8">
             <div class="title-action">
-                <a href="{{ route('admin.cosplay.index') }}" class="btn btn-danger">Volver</a>
+                <a href="{{ route('admin.cosplay.showtab',[$cosplay,'gastos']) }}" class="btn btn-danger">Volver</a>
             </div>
         </div>
     </div>
@@ -27,10 +38,10 @@
                 @endif
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Informacion del cosplay</h5></span>
+                        <h5>Informacion del gasto</h5></span>
                     </div>
 
-                    <form action="{{ route('admin.cosplay.store') }}" method="post">
+                    <form action="{{ route('admin.cosplay.gastos.store',$cosplay) }}" method="post">
                         {{ csrf_field() }}
                         <div class="ibox-content">
                             <div class="form-group">
@@ -38,23 +49,11 @@
                                 <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{ old('name') }}">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Estado</label>
-                                <select name="status" class="form-control">
-                                    <option value="{{ \App\Cosplay::PLANNED }}">{{ \App\Cosplay::PLANNED }}</option>
-                                    <option value="{{ \App\Cosplay::IN_PROGRESS }}">{{ \App\Cosplay::IN_PROGRESS }}</option>
-                                    <option value="{{ \App\Cosplay::FINISHED }}">{{ \App\Cosplay::FINISHED }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Presupuesto <small>(Opcional)</small></label>
+                                <label for="exampleInputEmail1">Precio</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input type="text" class="form-control" name="budget" value="{{ old('budget') }}">
+                                    <input type="number" class="form-control" step="0.01" name="cost"  value="{{ old('cost') }}">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Descripcion <small>(Opcional)</small></label>
-                                <textarea name="description" id="" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
                             </div>
                         </div>
                         <div class="ibox-footer text-right">
@@ -65,5 +64,38 @@
             </div>
         </div>
     </div>
+@endsection
 
+
+@section('style')
+    <link rel="stylesheet" href="{{asset('/css/plugins/nouslider/nouislider.min.css')}}">
+@endsection
+
+@section('scripts')
+    <script src="{{asset('/js/plugins/nouslider/nouislider.min.js') }}"></script>
+    <script>
+
+
+        var slider = document.getElementById('progreso');
+        var slider1Value = document.getElementById('porcetaje');
+        var slider1Value2 = document.getElementById('txtprogress');
+
+        noUiSlider.create(slider, {
+            start: {{ old('progress',0) }},
+            step: 5,
+            animate: false,
+            range: {
+                min: 0,
+                max: 100
+            }
+        });
+
+        slider.noUiSlider.on('update', function( values, handle ){
+            slider1Value.innerHTML = values[handle] + " %";
+            slider1Value2.value = values[handle];
+        });
+
+
+
+    </script>
 @endsection

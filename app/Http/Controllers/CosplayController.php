@@ -51,6 +51,8 @@ class CosplayController extends Controller
         $cosplay->name = $request->input('name');
         $cosplay->status = $request->input('status');
         $cosplay->description = $request->input('description');
+        $cosplay->budget = $request->input('budget');
+        $cosplay->owner = Auth::User()->id;
         $cosplay->save();
 
         $cosplay->users()->sync([Auth::User()->id]);
@@ -66,16 +68,23 @@ class CosplayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,$id)
+    public function show(Request $request,$id,$tab = 'partes')
     {
         $cosplay = Cosplay::findOrFail($id);
 
         if(Auth::user()->can('viewDetaills', $cosplay)){
-            return view('cosplay.show',compact('cosplay'));
+            return view('cosplay.show',compact(['cosplay','tab']));
         }else{
             $request->session()->flash('errors', 'No tiene permisos para ver el cosplay');
             return redirect()->route('admin.cosplay.index');
         }
+
+    }
+
+
+    public function showtab(Request $request,$cosplayId,$tab)
+    {
+        return $this->show($request,$cosplayId,$tab);
     }
 
     /**
@@ -86,7 +95,8 @@ class CosplayController extends Controller
      */
     public function edit($id)
     {
-        
+        $cosplay = Cosplay::findOrFail($id);
+        return view('cosplay.edit',compact('cosplay'));
     }
 
     /**
@@ -98,7 +108,23 @@ class CosplayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $cosplay = Cosplay::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required',
+            'status' => 'in:'.Cosplay::PLANNED.",".Cosplay::IN_PROGRESS.",".Cosplay::FINISHED,
+            'budget' => 'numeric',
+        ]);
+
+        $cosplay->name = $request->input('name');
+        $cosplay->status = $request->input('status');
+        $cosplay->description = $request->input('description');
+        $cosplay->budget = $request->input('budget');
+        $cosplay->save();
+
+        return redirect()->route('admin.cosplay.show',$cosplay);
+
     }
 
     /**
