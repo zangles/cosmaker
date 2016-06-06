@@ -13,7 +13,6 @@
 <div class="project-list">
 
     <table class="table table-hover">
-        <tbody>
         @foreach($cosplay->parts as $part)
             <tr>
                 <td class="project-status">

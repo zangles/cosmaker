@@ -51,6 +51,8 @@ class CosplayController extends Controller
         $cosplay->name = $request->input('name');
         $cosplay->status = $request->input('status');
         $cosplay->description = $request->input('description');
+        $cosplay->budget = $request->input('budget');
+        $cosplay->owner = Auth::User()->id;
         $cosplay->save();
 
         $cosplay->users()->sync([Auth::User()->id]);
@@ -86,7 +88,9 @@ class CosplayController extends Controller
      */
     public function edit($id)
     {
+        $cosplay = Cosplay::findOrFail($id);
         
+        return view('cosplay.edit',compact('cosplay'));
     }
 
     /**
@@ -98,7 +102,23 @@ class CosplayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $cosplay = Cosplay::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required',
+            'status' => 'in:'.Cosplay::PLANNED.",".Cosplay::IN_PROGRESS.",".Cosplay::FINISHED,
+            'budget' => 'numeric',
+        ]);
+
+        $cosplay->name = $request->input('name');
+        $cosplay->status = $request->input('status');
+        $cosplay->description = $request->input('description');
+        $cosplay->budget = $request->input('budget');
+        $cosplay->save();
+
+        return redirect()->route('admin.cosplay.show',$cosplay);
+
     }
 
     /**

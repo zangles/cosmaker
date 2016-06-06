@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="m-b-md">
-            <a href="#" class="btn btn-white btn-xs pull-right">Editar Cosplay</a>
+            <a href="{{ route('admin.cosplay.edit',$cosplay) }}" class="btn btn-white btn-xs pull-right">Editar Cosplay</a>
             <h2>Cosplay: {{ $cosplay->name }}</h2>
         </div>
         <dl class="dl-horizontal">

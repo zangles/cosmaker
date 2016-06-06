@@ -24,6 +24,11 @@ class Cosplay extends Model
         return $this->hasMany(CosplayPart::class);
     }
 
+    public function costs()
+    {
+        return $this->hasMany(Gasto::class);
+    }
+
     public function getProgress()
     {
         $parts = $this->parts->all();

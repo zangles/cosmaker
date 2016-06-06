@@ -1,6 +1,10 @@
 @php
     use Carbon\Carbon;
     use App\User;
+
+    if(!isset($tab)){
+        $tab = 'gastos';
+    }
 @endphp
 @extends('app')
 
@@ -33,10 +37,11 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#tab-1" data-toggle="tab">Partes</a></li>
-                                                <li class=""><a href="#tab-2" data-toggle="tab">Tareas</a></li>
-                                                <li class=""><a href="#tab-3" data-toggle="tab">Referencias</a></li>
-                                                <li class=""><a href="#tab-4" data-toggle="tab">Progreso</a></li>
+                                                <li @if($tab=='partes') class="active" @endif><a href="#tab-1" data-toggle="tab">Partes</a></li>
+                                                <li @if($tab=='gastos') class="active" @endif><a href="#tab-2" data-toggle="tab">Gastos</a></li>
+                                                <li @if($tab=='tareas') class="active" @endif><a href="#tab-3" data-toggle="tab">Tareas</a></li>
+                                                <li @if($tab=='referencias') class="active" @endif><a href="#tab-4" data-toggle="tab">Referencias</a></li>
+                                                <li @if($tab=='progreso') class="active" @endif><a href="#tab-5" data-toggle="tab">Progreso</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -46,12 +51,15 @@
                                                 @include('cosplay.partials.cosplayPartes')
                                             </div>
                                             <div class="tab-pane" id="tab-2">
-                                                @include('cosplay.partials.cosplayTareas')
+                                                @include('cosplay.partials.cosplayCompras')
                                             </div>
                                             <div class="tab-pane" id="tab-3">
-                                                @include('cosplay.partials.cosplayReferencias')
+                                                @include('cosplay.partials.cosplayTareas')
                                             </div>
                                             <div class="tab-pane" id="tab-4">
+                                                @include('cosplay.partials.cosplayReferencias')
+                                            </div>
+                                            <div class="tab-pane" id="tab-5">
                                                 @include('cosplay.partials.cosplayProgreso')
                                             </div>
                                         </div>
