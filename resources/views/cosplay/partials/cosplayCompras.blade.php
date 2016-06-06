@@ -3,69 +3,49 @@
     use App\User;
 @endphp
 <div class="row m-b-sm m-t-sm">
-    <div class="col-md-12 text-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNewCost">
-                Nuevo Gasto
-            </button>
+    <div class="col-md-4 text-left">
+        Total Gastos: <strong>$ {{ $cosplay->totalCost() }}</strong>
+    </div>
+    <div class="col-md-8 text-right">
+        @can('createCost',$cosplay)
+            <a type="button" href="{{ route('admin.cosplay.gastos.create',$cosplay) }}" class="btn btn-primary">Nuevo Gasto</a>
+        @endcan
     </div>
 </div>
-
 
 <div class="project-list">
     <table class="table table-hover">
         <tbody>
+        @foreach($cosplay->costs as $c)
             <tr>
-                <td>01/10/2016</td>
-                <td>Goma Eva</td>
-                <td>$ 150</td>
+                <td>{{ Carbon::parse($c->created_at)->format('d/m/Y') }}</td>
+                <td>{{ $c->name }}</td>
+                <td>$ {{ $c->cost }}</td>
                 <td>
-
-                    <a href="#" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  </a>
-                    @include('helpers.confirm.index',[
-                                                        'button' => [
-                                                            'icon'=>'fa-trash-o',
-                                                            'text'=>'',
-                                                            'style'=>'danger btn-sm',
-                                                        ],
-                                                        'modal' => [
-                                                            'confirm_text' => 'Borrar',
-                                                            'confirm_style' =>'danger',
-                                                            'callback' => '$("#deleteForm'."1".'").submit();',
-                                                            'text' => 'Esta seguro que desea borrar la parte '."1"."?"
-                                                        ]
-                                                    ])
+                    @can('edit',$c)
+                        <a href="{{ route('admin.cosplay.gastos.edit',[$cosplay,$c]) }}" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i>  </a>
+                    @endcan
+                    @can('delete',$c)
+                        @include('helpers.confirm.index',[
+                                                            'button' => [
+                                                                'icon'=>'fa-trash-o',
+                                                                'text'=>'',
+                                                                'style'=>'danger btn-sm',
+                                                            ],
+                                                            'modal' => [
+                                                                'confirm_text' => 'Borrar',
+                                                                'confirm_style' =>'danger',
+                                                                'callback' => '$("#deleteForm'.$c->id.'").submit();',
+                                                                'text' => 'Esta seguro que desea borrar el gasto '.$c->name."?"
+                                                            ]
+                                                        ])
+                        <form method="post" action="{{ route('admin.cosplay.gastos.destroy',[$c->cosplay->id,$c->id]) }}" id="deleteForm{{$c->id}}">
+                            {{ csrf_field() }} {{ method_field('DELETE') }}
+                        </form>
+                    @endcan
                 </td>
             </tr>
+        @endforeach
         </tbody>
     </table>
-</div>
-
-
-<div class="modal inmodal" id="modalNewCost" tabindex="-1" role="dialog"  aria-hidden="true">
-
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content animated fadeIn">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title">Nuevo Gasto</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Nombre</label>
-                    <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{ old('name') }}">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Costo</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input type="text" class="form-control" name="cost" value="{{ old('cost') }}">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
 </div>

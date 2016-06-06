@@ -29,6 +29,11 @@ class Cosplay extends Model
         return $this->hasMany(Gasto::class);
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
     public function getProgress()
     {
         $parts = $this->parts->all();
@@ -38,5 +43,10 @@ class Cosplay extends Model
             $suma += $part->progress;
         }
         return round($suma/($k+1),0);
+    }
+
+    public function totalCost()
+    {
+        return $this->costs->sum('cost');
     }
 }

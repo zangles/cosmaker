@@ -2,6 +2,8 @@
 
 use App\Cosplay;
 use App\CosplayPart;
+use App\Gasto;
+use App\Task;
 use App\User;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -17,7 +19,9 @@ class CosplaySeed extends Seeder
     {
         $this->createCosplays(50);
         $this->createCosplayParts();
-        
+        $this->createCosplayCosts();
+        $this->createCosplayTasks();
+
     }
 
     private function createCosplays($cant)
@@ -53,6 +57,7 @@ class CosplaySeed extends Seeder
 
             $cosplay->users()->sync($pivotData);
 
+            
 
         }
     }
@@ -74,6 +79,41 @@ class CosplaySeed extends Seeder
                 ]);
             }
 
+        }
+    }
+    
+    private function createCosplayCosts()
+    {
+        $faker = Faker::create();
+        $cosplays = Cosplay::all();
+
+        foreach ($cosplays as $cosplay) {
+            $cant = rand(1, 10);
+            for ($i = 1; $i <= $cant; $i++) {
+                Gasto::create([
+                    'cosplay_id' => $cosplay->id,
+                    'name' => $faker->name(),
+                    'cost' => $faker->randomFloat(2,0.01,1500)
+                ]);
+            }
+        }
+    }
+
+
+    private function createCosplayTasks()
+    {
+        $faker = Faker::create();
+        $cosplays = Cosplay::all();
+
+        foreach ($cosplays as $cosplay) {
+            $cant = rand(1, 10);
+            for ($i = 1; $i <= $cant; $i++) {
+                Task::create([
+                    'cosplay_id' => $cosplay->id,
+                    'name' => $faker->name(),
+                    'status' => $faker->randomElement([ Task::STATUS_COMPLETED, Task::STATUS_INCOMPLETED]),
+                ]);
+            }
         }
     }
 }

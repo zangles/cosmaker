@@ -3,7 +3,7 @@
     use App\User;
 
     if(!isset($tab)){
-        $tab = 'gastos';
+        $tab = 'partes';
     }
 @endphp
 @extends('app')
@@ -47,19 +47,19 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="tab-1">
+                                            <div class="tab-pane @if($tab=='partes') active @endif" id="tab-1">
                                                 @include('cosplay.partials.cosplayPartes')
                                             </div>
-                                            <div class="tab-pane" id="tab-2">
+                                            <div class="tab-pane @if($tab=='gastos') active @endif" id="tab-2">
                                                 @include('cosplay.partials.cosplayCompras')
                                             </div>
-                                            <div class="tab-pane" id="tab-3">
+                                            <div class="tab-pane @if($tab=='tareas') active @endif" id="tab-3">
                                                 @include('cosplay.partials.cosplayTareas')
                                             </div>
-                                            <div class="tab-pane" id="tab-4">
+                                            <div class="tab-pane @if($tab=='referencias') active @endif" id="tab-4">
                                                 @include('cosplay.partials.cosplayReferencias')
                                             </div>
-                                            <div class="tab-pane" id="tab-5">
+                                            <div class="tab-pane @if($tab=='progreso') active @endif" id="tab-5">
                                                 @include('cosplay.partials.cosplayProgreso')
                                             </div>
                                         </div>
@@ -77,4 +77,25 @@
             @include('cosplay.partials.cosplayDescription')
         </div>
     </div>
+@endsection
+
+@section('style')
+    <link rel="stylesheet" href="{{ asset('/css/plugins/iCheck/custom.css') }}">
+    <style>
+        .todo-list > li.bg-todo-completed{
+            background-color: #E7EAEC; !important;
+        }
+    </style>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
 @endsection

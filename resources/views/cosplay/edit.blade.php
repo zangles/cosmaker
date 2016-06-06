@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-8">
             <div class="title-action">
-                <a href="{{ route('admin.cosplay.index') }}" class="btn btn-danger">Volver</a>
+                <a href="{{ route('admin.cosplay.show',$cosplay) }}" class="btn btn-danger">Volver</a>
             </div>
         </div>
     </div>

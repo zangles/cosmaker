@@ -14,4 +14,6 @@ class Gasto extends Model
     {
         return $this->belongsTo(Cosplay::class);
     }
+
+    
 }

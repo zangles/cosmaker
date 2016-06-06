@@ -22,9 +22,9 @@
         <dl class="dl-horizontal">
             <dt>Creado por:</dt> <dd>{{ User::find($cosplay->owner)->cosplayer_name }}</dd>
             <dt>Presupuesto:</dt> <dd>{{ ($cosplay->budget > 0)?"$ ".$cosplay->budget:"Sin presupuesto" }}</dd>
-            <dt>Gastado:</dt> <dd>$ 0</dd>
+            <dt>Gastado:</dt> <dd>$ {{ $cosplay->totalCost() }}</dd>
             @if($cosplay->budget > 0)
-                <dt>Disponible:</dt> <dd>$ {{ $cosplay->budget }}</dd>
+                <dt>Disponible:</dt> <dd>$ {{ $cosplay->budget -  $cosplay->totalCost() }}</dd>
             @endif
         </dl>
     </div>
