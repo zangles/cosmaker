@@ -1,7 +1,7 @@
     @php
         $modalId = mt_rand();
     @endphp
-    <button type="button" class="btn btn-{{$button['style']}}" data-toggle="modal" data-target="#myModal{{$modalId}}">
+    <button type="button" class="btn btn-{{$button['style']}}" style="@if(isset($button['css'])) {{$button['css']}} @endif" data-toggle="modal" data-target="#myModal{{$modalId}}">
         <i class="fa {{$button['icon']}}" aria-hidden="true" ></i>
         {{$button['text']}}
     </button>

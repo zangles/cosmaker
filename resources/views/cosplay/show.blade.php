@@ -81,15 +81,25 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('/css/plugins/iCheck/custom.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('/css/plugins/lightGallery/lightgallery.css') }}" />
     <style>
         .todo-list > li.bg-todo-completed{
             background-color: #E7EAEC; !important;
+        }
+
+        .azs{
+            max-width: 165px;
         }
     </style>
 @endsection
 
 @section('scripts')
     <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
+
+    <script src="{{ asset('/js/plugins/lightGallery/lightgallery.js') }}"></script>
+    <!-- lightgallery plugins -->
+    <script src="{{ asset('/js/plugins/lightGallery/lg-thumbnail.js') }}"></script>
+    <script src="{{ asset('/js/plugins/lightGallery/lg-fullscreen.js') }}"></script>
     <script>
         $(document).ready(function(){
             $('.i-checks').iCheck({
@@ -103,6 +113,14 @@
             });
             $('.checktareas').on('ifUnchecked', function(event){
                 uncheckTask($(this).data('id'));
+            });
+
+            $("#lightgallery").lightGallery({
+                thumbnail:true,
+                animateThumb: false,
+                showThumbByDefault: false,
+                selector: '.item',
+                fullScreen:false
             });
         });
 
