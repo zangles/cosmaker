@@ -96,6 +96,52 @@
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
+
+            $('.checktareas').on('ifChecked', function(event){
+                checkTask($(this).data('id'));
+
+            });
+            $('.checktareas').on('ifUnchecked', function(event){
+                uncheckTask($(this).data('id'));
+            });
         });
+
+        function checkTask(id){
+            sendRequest(id);
+            var taskContainer = $('#task-'+id);
+            taskContainer.addClass('bg-todo-completed');
+            $('#tasktitle-'+id).addClass('todo-completed');
+            $('#taskdate-'+id).show();
+            var url = $("#taskUrl-"+id).val().replace(':status','{{ \App\Task::STATUS_COMPLETED }}');
+            $.get(url,null,function(result){
+                sendRequest(id);
+            });
+        }
+        function uncheckTask(id){
+            sendRequest(id);
+            var taskContainer = $('#task-'+id);
+            taskContainer.removeClass('bg-todo-completed');
+            $('#tasktitle-'+id).removeClass('todo-completed');
+            $('#taskdate-'+id).hide();
+            var url = $("#taskUrl-"+id).val().replace(':status','{{ \App\Task::STATUS_INCOMPLETED }}');
+            $.get(url,null,function(result){
+                sendRequest(id);
+            });
+        }
+
+        function sendRequest(id)
+        {
+            var check = $("#checkdiv-"+id);
+            var spinner = $("#spinner-"+id);
+            if(check.is(':visible')){
+                check.hide();
+                spinner.show();
+            }else{
+                check.show();
+                spinner.hide();
+            }
+
+        }
+
     </script>
 @endsection

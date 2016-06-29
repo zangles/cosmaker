@@ -35,11 +35,11 @@
                                                             'modal' => [
                                                                 'confirm_text' => 'Borrar',
                                                                 'confirm_style' =>'danger',
-                                                                'callback' => '$("#deleteForm'.$c->id.'").submit();',
+                                                                'callback' => '$("#deleteCostForm'.$c->id.'").submit();',
                                                                 'text' => 'Esta seguro que desea borrar el gasto '.$c->name."?"
                                                             ]
                                                         ])
-                        <form method="post" action="{{ route('admin.cosplay.gastos.destroy',[$c->cosplay->id,$c->id]) }}" id="deleteForm{{$c->id}}">
+                        <form method="post" action="{{ route('admin.cosplay.gastos.destroy',[$c->cosplay->id,$c->id]) }}" id="deleteCostForm{{$c->id}}">
                             {{ csrf_field() }} {{ method_field('DELETE') }}
                         </form>
                     @endcan

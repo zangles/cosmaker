@@ -5,62 +5,41 @@
 <div class="row m-b-sm m-t-sm">
     <div class="col-md-12 text-right">
         @can('createCost',$cosplay)
-            <a type="button" href="{{ route('admin.cosplay.gastos.create',$cosplay) }}" class="btn btn-primary">Nueva Tarea</a>
+            <a type="button" href="{{ route('admin.cosplay.tareas.create',$cosplay) }}" class="btn btn-primary">Nueva Tarea</a>
         @endcan
     </div>
 </div>
 
 <div class="col-lg-12">
         <ul class="todo-list m-t">
-            <li class="bg-todo-completed">
-                <div class="row">
-                    <div class="col-md-8">
-                        <input type="checkbox" value="" name="" class="i-checks"/>
-                        <span class="m-l-xs" >
-                            <span class="m-l-xs todo-completed">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, corporis dignissimos ea harum inventore, ipsa, labore maiores minus nulla odio quaerat quam quasi qui sint voluptatum? Consequuntur delectus molestiae saepe.
-                            </span>
-                        </span>
-                    </div>
-                    <div class="col-md-2">
-                        <small class="label label-primary">01/10/2016</small>
-                    </div>
-                    <div class="col-md-2 text-right">
-                        <button class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></button>
-                        @include('helpers.confirm.index',[
-                                                                'button' => [
-                                                                    'icon'=>'fa-trash-o',
-                                                                    'text'=>'',
-                                                                    'style'=>'danger btn-sm',
-                                                                ],
-                                                                'modal' => [
-                                                                    'confirm_text' => 'Borrar',
-                                                                    'confirm_style' =>'danger',
-                                                                    'callback' => '$("#deleteForm'.'s'.'").submit();',
-                                                                    'text' => 'Esta seguro que desea borrar el gasto '.'s'."?"
-                                                                ]
-                                                            ])
-
-                    </div>
-                </div>
-            </li>
-            @foreach($cosplay->tasks as $t)
-                <li class="@if($t->status == \App\Task::STATUS_COMPLETED) bg-todo-completed @endif">
+            @foreach(\App\Task::where('cosplay_id',$cosplay->id)->orderBy('status')->get() as $t)
+                <li class="@if($t->status == \App\Task::STATUS_COMPLETED) bg-todo-completed @endif" id="task-{{ $t->id }}">
                     <div class="row">
+                        <input type="hidden" id="taskUrl-{{ $t->id }}" value="{{route('admin.tareas.changeStatus',[$t,':status'])}}">
                         <div class="col-md-8">
-                            <input type="checkbox" value="" name="" class="i-checks" @if($t->status == \App\Task::STATUS_COMPLETED) checked @endif/>
-                            <span class="m-l-xs @if($t->status == \App\Task::STATUS_COMPLETED) todo-completed" @endif >{{ $t->name }}</span>
-                        </div>
-                        @if($t->status == \App\Task::STATUS_COMPLETED)
-                            <div class="col-md-2">
-                                <small class="label label-primary">{{ Carbon::parse($t->updated_at)->format('d/m/Y') }}</small>
+                            <i class="fa fa-spinner fa-spin" style="display: none" id="spinner-{{ $t->id }}" aria-hidden="true"></i>
+                            <div class="aaa" style="display: inline-block" id="checkdiv-{{ $t->id }}">
+                            <input type="checkbox" value="" name="" class="i-checks checktareas" data-id="{{ $t->id }}" @if($t->status == \App\Task::STATUS_COMPLETED) checked @endif/>
                             </div>
-                        @else
-                            <div class="col-md-2"></div>
-                        @endif
+                            <span class="m-l-xs @if($t->status == \App\Task::STATUS_COMPLETED) todo-completed @endif" id="tasktitle-{{ $t->id }}">{{ $t->name }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            @if($t->status == \App\Task::STATUS_COMPLETED)
+                                <small class="label label-primary" id="taskdate-{{ $t->id }}">
+                                    {{ Carbon::parse($t->updated_at)->format('d/m/Y') }}
+                                </small>
+                            @else
+                                <small class="label label-primary" id="taskdate-{{ $t->id }}" style="display: none;">
+                                    {{ Carbon::parse('now')->format('d/m/Y') }}
+                                </small>
+                            @endif
+                        </div>
                         <div class="col-md-2 text-right">
-                            <button class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></button>
-                            @include('helpers.confirm.index',[
+                            @can('edit',$t)
+                                <a href="{{ route('admin.cosplay.tareas.edit',[$cosplay,$t]) }}" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></a>
+                            @endcan
+                            @can('delete',$t)
+                                @include('helpers.confirm.index',[
                                                                     'button' => [
                                                                         'icon'=>'fa-trash-o',
                                                                         'text'=>'',
@@ -69,11 +48,14 @@
                                                                     'modal' => [
                                                                         'confirm_text' => 'Borrar',
                                                                         'confirm_style' =>'danger',
-                                                                        'callback' => '$("#deleteForm'.'s'.'").submit();',
-                                                                        'text' => 'Esta seguro que desea borrar el gasto '.'s'."?"
+                                                                        'callback' => '$("#deleteTaskForm'.$t->id.'").submit();',
+                                                                        'text' => 'Esta seguro que desea borrar la tarea '. $t->name .' ?'
                                                                     ]
                                                                 ])
-
+                                <form method="post" action="{{ route('admin.cosplay.tareas.destroy',[$t->cosplay->id,$t->id]) }}" id="deleteTaskForm{{$t->id}}">
+                                    {{ csrf_field() }} {{ method_field('DELETE') }}
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </li>
