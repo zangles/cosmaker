@@ -47,11 +47,11 @@
                                                         'modal' => [
                                                             'confirm_text' => 'Borrar',
                                                             'confirm_style' =>'danger',
-                                                            'callback' => '$("#deleteForm'.$part->id.'").submit();',
+                                                            'callback' => '$("#deletePartForm'.$part->id.'").submit();',
                                                             'text' => 'Esta seguro que desea borrar la parte '.$part->name."?"
                                                         ]
                                                     ])
-                        <form method="post" action="{{ route('admin.cosplay.parts.destroy',[$part->cosplay->id,$part->id]) }}" id="deleteForm{{$part->id}}">
+                        <form method="post" action="{{ route('admin.cosplay.parts.destroy',[$part->cosplay->id,$part->id]) }}" id="deletePartForm{{$part->id}}">
                             {{ csrf_field() }} {{ method_field('DELETE') }}
                         </form>
                     @endcan
