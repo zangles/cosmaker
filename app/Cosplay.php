@@ -34,6 +34,11 @@ class Cosplay extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function references()
+    {
+        return $this->hasMany(Referencias::class);
+    }
+
     public function getProgress()
     {
         $parts = $this->parts->all();

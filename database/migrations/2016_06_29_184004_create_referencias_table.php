@@ -14,6 +14,8 @@ class CreateReferenciasTable extends Migration
     {
         Schema::create('referencias', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('cosplay_id')->unsigned();
+            $table->string('file_ext');
             $table->timestamps();
         });
     }

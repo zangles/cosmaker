@@ -18,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Cosplay' => 'App\Policies\CosplayPolicy',
         'App\CosplayPart' => 'App\Policies\CosplayPartPolicy',
         'App\Gasto' => 'App\Policies\GastoPolicy',
-        'App\Task' => 'App\Policies\CosplayTaskPolicy'
+        'App\Task' => 'App\Policies\CosplayTaskPolicy',
+        'App\Referencias' => 'App\Policies\CosplayReferences'
     ];
 
     /**
