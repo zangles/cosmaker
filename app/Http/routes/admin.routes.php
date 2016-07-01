@@ -6,6 +6,7 @@ Route::get('/',function(){
 });
 
 Route::resource('cosplay', 'CosplayController');
+
 Route::get('/cosplay/{cosplay}/{tab}', array('as' => 'admin.cosplay.showtab', 'uses' => 'CosplayController@showtab') );
 
 Route::resource('cosplay.parts','CosplayPartController');
