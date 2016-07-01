@@ -23,12 +23,12 @@ class Referencias extends Model
 
     public function getRealFilePath()
     {
-        return public_path().'\\img\\references\\'.$this->getFileName();
+        return public_path().'/img/references/'.$this->getFileName();
     }
 
     public function getRealThumbPath()
     {
-        return public_path().'\\img\\references\\thumb_'.$this->getFileName();
+        return public_path().'/img/references/thumb_'.$this->getFileName();
     }
 
 
