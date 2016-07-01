@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="m-b-md">
-            <a href="#" class="btn btn-white btn-xs pull-right">Editar Cosplay</a>
+            <a href="{{ route('admin.cosplay.edit',$cosplay) }}" class="btn btn-white btn-xs pull-right">Editar Cosplay</a>
             <h2>Cosplay: {{ $cosplay->name }}</h2>
         </div>
         <dl class="dl-horizontal">
@@ -22,9 +22,9 @@
         <dl class="dl-horizontal">
             <dt>Creado por:</dt> <dd>{{ User::find($cosplay->owner)->cosplayer_name }}</dd>
             <dt>Presupuesto:</dt> <dd>{{ ($cosplay->budget > 0)?"$ ".$cosplay->budget:"Sin presupuesto" }}</dd>
-            <dt>Gastado:</dt> <dd>$ 0</dd>
+            <dt>Gastado:</dt> <dd>$ {{ $cosplay->totalCost() }}</dd>
             @if($cosplay->budget > 0)
-                <dt>Disponible:</dt> <dd>$ {{ $cosplay->budget }}</dd>
+                <dt>Disponible:</dt> <dd>$ {{ $cosplay->budget -  $cosplay->totalCost() }}</dd>
             @endif
         </dl>
     </div>

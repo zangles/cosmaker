@@ -2,7 +2,7 @@
     <h4>Descripcion del cosplay</h4>
     {{--<img src="img/zender_logo.png" class="img-responsive">--}}
     <p class="small">
-        {{ $cosplay->description }}
+        {!! nl2br($cosplay->description) !!}
     </p>
     {{--<p class="small font-bold">--}}
         {{--<span><i class="fa fa-circle text-warning"></i> High priority</span>--}}
